@@ -1,29 +1,29 @@
 package com.rest.springboot.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rest.springboot.dao.UserRepository;
 import com.rest.springboot.entity.User;
 
 @RestController
 public class UserController {
 
-	static Map<Integer, User> users = new HashMap<>();
+	@Autowired
+	private UserRepository userRepositoy;
 
-	static {
-
-		users.put(1, new User(1, "Vikas", "Male", "Noida"));
-		users.put(2, new User(2, "Kunal", "Male", "GZB"));
-		users.put(3, new User(3, "Nakul", "Male", "Noida"));
-		users.put(4, new User(4, "Abhi", "Male", "Gurgaon"));
-		users.put(5, new User(5, "Arjun", "Male", "Noida"));
-
+	public UserController(UserRepository userRepositoy) {
+		super();
+		this.userRepositoy = userRepositoy;
 	}
 
 	@GetMapping
@@ -34,22 +34,22 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
-	public User pathVariablle(@PathVariable(name = "id") int id) {
+	public Optional<User> pathVariablle(@PathVariable(name = "id") int id) {
 		System.out.println("UserController.pathVariablle : " + id);
-		return users.get(id);
+		return userRepositoy.findById(id);
 	}
 
 	@GetMapping("/all-users")
-	public Map<Integer, User> getAllUsers() {
+	public List<User> getAllUsers() {
 		System.out.println("UserController.getAllUsers()");
-		return users;
+		return userRepositoy.findAll();
 	}
 
 	@PostMapping
 	public User saveUser(@RequestBody User user) {
 		System.out.println("UserController.saveUser : ");
 		System.out.println(user);
-		users.put(user.getId(), user);
+		userRepositoy.save(user);
 		return user;
 	}
 
