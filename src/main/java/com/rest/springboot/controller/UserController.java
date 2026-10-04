@@ -1,8 +1,6 @@
 package com.rest.springboot.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +31,7 @@ public class UserController {
 
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/path/{id}")
 	public Optional<User> pathVariablle(@PathVariable(name = "id") int id) {
 		System.out.println("UserController.pathVariablle : " + id);
 		return userRepositoy.findById(id);

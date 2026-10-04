@@ -3,7 +3,7 @@ package com.rest.springboot.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-@Entity
+@Entity(name = "myUser")
 public class User {
 	
 	@Id
